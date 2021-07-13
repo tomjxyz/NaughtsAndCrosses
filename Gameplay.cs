@@ -4,6 +4,11 @@ using System.Linq;
 
 public class Gameplay : CanvasLayer
 {
+    // These two booleans control wether naughts or crosses are controlled by AI
+    // Passed in when the scene is instantiated
+    public bool CrossCpu { get; set; }
+    public bool NaughtCpu { get; set; }
+
     // Boolean that determines whether crosses are currently playing
     // If not naughts must be
     private bool _crossTurn;
