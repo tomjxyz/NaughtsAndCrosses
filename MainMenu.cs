@@ -16,7 +16,7 @@ public class MainMenu : CanvasLayer
     private Texture[] _selectorTextures;
 
     [Signal]
-    public delegate void start_game(bool crossp1, bool crossp2);
+    public delegate void start_game(bool humanp1, bool humanp2);
 
     public MainMenu() {
         _crossPressed = false;

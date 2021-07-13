@@ -11,9 +11,9 @@ public class Main : Node
         _mainMenu.Connect("start_game", this, "_startGame");
     }
 
-    private void _startGame(bool crossp1, bool crossp2) {
+    private void _startGame(bool humanp1, bool humanp2) {
         // For testing 
-        GD.Print("Start game");
+        GD.Print("Start game p1: " +  humanp1 + " p2: " + humanp2);
     }
 
 }

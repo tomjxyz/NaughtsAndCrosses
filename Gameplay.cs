@@ -33,7 +33,7 @@ public class Gameplay : CanvasLayer
     }
 
     [Signal]
-    public delegate void playerWon(bool crosses);
+    public delegate void player_won(bool crosses);
 
     public void onTapped(GridBtn b) {
         if (b.Empty) {
@@ -50,7 +50,7 @@ public class Gameplay : CanvasLayer
             _winLine.Points = winArray;
             _winLine.Visible = true;
             GetNode<Button>("RestartBtn").Visible = true;
-            EmitSignal("playerWon", _crossTurn);
+            EmitSignal("player_won", _crossTurn);
         }
     }
 
