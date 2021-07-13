@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GridBtn.cs" type="Script" id=1]
+
+[node name="GridBtn" type="Control"]
+margin_right = 268.0
+margin_bottom = 268.0
+rect_min_size = Vector2( 268, 268 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_right = 268.0
+margin_bottom = 268.0
+rect_min_size = Vector2( 268, 268 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
