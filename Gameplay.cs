@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 
-public class Main : CanvasLayer
+public class Gameplay : CanvasLayer
 {
     // Boolean that determines whether crosses are currently playing
     // If not naughts must be
