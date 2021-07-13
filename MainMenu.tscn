@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Art/font/ARCADE_N.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Art/cross.png" type="Texture" id=2]
 [ext_resource path="res://Art/player_template.png" type="Texture" id=3]
 [ext_resource path="res://Art/naught.png" type="Texture" id=4]
+[ext_resource path="res://MainMenu.cs" type="Script" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
@@ -15,8 +16,15 @@ font_data = ExtResource( 1 )
 size = 50
 font_data = ExtResource( 1 )
 
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="DynamicFont" id=4]
+size = 60
+font_data = ExtResource( 1 )
+
 [node name="MainMenu" type="CanvasLayer"]
 layer = 2
+script = ExtResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -43,8 +51,8 @@ __meta__ = {
 
 [node name="SettingsLbl" type="Label" parent="."]
 anchor_right = 1.0
-margin_top = 662.341
-margin_bottom = 849.341
+margin_top = 500.889
+margin_bottom = 687.889
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.980392, 0.992157, 1, 1 )
 text = "Select
@@ -61,8 +69,9 @@ anchor_top = 0.892
 anchor_right = 0.5
 anchor_bottom = 0.892
 margin_left = -309.0
-margin_top = -774.0
+margin_top = -935.452
 margin_right = 309.0
+margin_bottom = -161.452
 custom_constants/vseparation = 150
 custom_constants/hseparation = 50
 columns = 2
@@ -108,6 +117,28 @@ margin_right = 618.0
 margin_bottom = 774.0
 size_flags_horizontal = 7
 texture_normal = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartBtn" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.925
+anchor_right = 0.5
+anchor_bottom = 0.925
+margin_left = -147.5
+margin_top = -61.0
+margin_right = 147.5
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color_disabled = Color( 0.0862745, 0.0901961, 0.101961, 1 )
+custom_colors/font_color = Color( 0.980392, 0.992157, 1, 1 )
+disabled = true
+text = "Start"
 __meta__ = {
 "_edit_use_anchors_": false
 }
