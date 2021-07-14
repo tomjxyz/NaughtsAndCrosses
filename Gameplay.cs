@@ -57,9 +57,9 @@ public class Gameplay : CanvasLayer
             _winLine.Visible = true;
             var winPopup = GetNode<Popup>("WinMenu");
             if (!_crossTurn)
-                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Cross Wins";
+                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Crosses win";
             else
-                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Naught Wins";
+                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Naughts win";
             winPopup.Popup_();
         }
         // If its -2 then there was a draw
