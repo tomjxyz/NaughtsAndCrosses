@@ -57,6 +57,10 @@ public class Gameplay : CanvasLayer
             GetNode<Button>("RestartBtn").Visible = true;
             EmitSignal("player_won", _crossTurn);
         }
+        // If its -2 then there was a draw
+        if ( winArray[0].x == -2 )
+            GetNode<Button>("RestartBtn").Visible = true;
+
     }
 
     // Returns an array of vector 2 positions to draw the line of winning to
@@ -107,11 +111,22 @@ public class Gameplay : CanvasLayer
             }
         }
         else {
-            // Set an impossible value
-            positions[0].x = -1;
+            // If all sqaures have a value but still no win
+            bool full = true;
+            foreach (GridBtn b in _buttons) {
+                if (b.Empty) 
+                    full = false;
+            }
+            if (full) {
+                // Set value for draw
+                positions[0].x = -2;
+            }
+            else {
+                // Set value for no draw or win
+                positions[0].x = -1;
+            }
         }
         
-        // Otherwise return no win
         return positions;
     }
 
