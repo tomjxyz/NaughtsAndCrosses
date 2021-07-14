@@ -1,0 +1,115 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Art/btn_styles/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Art/font/ARCADE_N.TTF" type="DynamicFontData" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="DynamicFont" id=7]
+size = 60
+font_data = ExtResource( 2 )
+
+[node name="WinMenu" type="Popup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -449.0
+margin_top = -318.0
+margin_right = 450.0
+margin_bottom = 318.0
+rect_min_size = Vector2( 200, 200 )
+popup_exclusive = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shadow" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 72.3171
+margin_top = 53.8174
+margin_right = -6.68286
+margin_bottom = -12.1826
+color = Color( 0.517647, 0.517647, 0.517647, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Backing" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 43.7267
+margin_top = 28.5906
+margin_right = -35.2733
+margin_bottom = -37.4094
+color = Color( 0.0862745, 0.0901961, 0.101961, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="Backing"]
+anchor_left = 0.564
+anchor_top = 0.907
+anchor_right = 0.564
+anchor_bottom = 0.907
+margin_left = -408.0
+margin_top = -31.0
+margin_right = 408.0
+margin_bottom = 31.0
+custom_constants/hseparation = 91
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackBtn" type="Button" parent="Backing/GridContainer"]
+margin_right = 351.0
+margin_bottom = 41.0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
+text = "Main Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartBtn" type="Button" parent="Backing/GridContainer"]
+margin_left = 442.0
+margin_right = 715.0
+margin_bottom = 41.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = ExtResource( 1 )
+text = "Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResultLbl" type="Label" parent="Backing"]
+anchor_left = 0.5
+anchor_top = 0.409
+anchor_right = 0.5
+anchor_bottom = 0.409
+margin_left = -317.0
+margin_top = -102.0
+margin_right = 316.0
+margin_bottom = 103.0
+custom_fonts/font = SubResource( 7 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -22,6 +22,9 @@ public class Gameplay : CanvasLayer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        GetNode<Button>("WinMenu/Backing/GridContainer/BackBtn").Connect("pressed", this, "_onBackBtn");
+        GetNode<Button>("WinMenu/Backing/GridContainer/RestartBtn").Connect("pressed", this, "_onRestartBtn");
+
         _crosstexture = (Texture)GD.Load("res://Art/cross.png");
         _naughttexture = (Texture)GD.Load("res://Art/naught.png");
         _buttons = new GridBtn[3,3];
@@ -33,12 +36,10 @@ public class Gameplay : CanvasLayer
             _buttons[(int)b.GridPos.x, (int)b.GridPos.y] = b;
         }
         _winLine = GetNode<Line2D>("WinLine");
-        var restartBtn = GetNode<Button>("RestartBtn");
-        restartBtn.Connect("pressed", this, "_onRestartBtn");
     }
 
     [Signal]
-    public delegate void player_won(bool crosses);
+    public delegate void exit_to_menu();
 
     public void onTapped(GridBtn b) {
         if (b.Empty) {
@@ -54,12 +55,19 @@ public class Gameplay : CanvasLayer
         if( winArray[0].x != -1 ) {
             _winLine.Points = winArray;
             _winLine.Visible = true;
-            GetNode<Button>("RestartBtn").Visible = true;
-            EmitSignal("player_won", _crossTurn);
+            var winPopup = GetNode<Popup>("WinMenu");
+            if (!_crossTurn)
+                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Cross Wins";
+            else
+                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Naught Wins";
+            winPopup.Popup_();
         }
         // If its -2 then there was a draw
-        if ( winArray[0].x == -2 )
-            GetNode<Button>("RestartBtn").Visible = true;
+        if ( winArray[0].x == -2 ) {
+            var winPopup = GetNode<Popup>("WinMenu");
+            winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Draw";
+            winPopup.Popup_();
+        }
 
     }
 
@@ -136,6 +144,6 @@ public class Gameplay : CanvasLayer
             b.Empty = true;
             b.setTexture(null, false);
         }
-        GetNode<Button>("RestartBtn").Visible = false;
+        GetNode<Popup>("WinMenu").Visible = false;
     }
 }

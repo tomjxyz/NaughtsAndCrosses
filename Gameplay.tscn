@@ -1,29 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Gameplay.cs" type="Script" id=1]
 [ext_resource path="res://GridBtn.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Art/grid.png" type="Texture" id=3]
-[ext_resource path="res://Art/font/ARCADE_N.TTF" type="DynamicFontData" id=4]
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0, 0, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.678431, 0.678431, 0.678431, 1 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 50
-font_data = ExtResource( 4 )
+[ext_resource path="res://WinDialog.tscn" type="PackedScene" id=7]
 
 [node name="Gameplay" type="CanvasLayer"]
 layer = 2
@@ -127,21 +107,4 @@ default_color = Color( 1, 1, 1, 1 )
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="RestartBtn" type="Button" parent="."]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 283.0
-margin_top = -205.0
-margin_right = -283.0
-margin_bottom = -20.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = SubResource( 1 )
-custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0.980392, 0.992157, 1, 1 )
-text = "Restart"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="WinMenu" parent="." instance=ExtResource( 7 )]
