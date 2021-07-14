@@ -16,7 +16,10 @@ public class Gameplay : CanvasLayer
 
     private Texture _crosstexture;
     private Texture _naughttexture;
+
     private Line2D _winLine;
+    private Timer _winTimer;
+    private Vector2[] _winArray;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -36,6 +39,8 @@ public class Gameplay : CanvasLayer
             _buttons[(int)b.GridPos.x, (int)b.GridPos.y] = b;
         }
         _winLine = GetNode<Line2D>("WinLine");
+        _winTimer = GetNode<Timer>("WinTimer");
+        _winTimer.Connect("timeout", this, "_showWinPopup");
     }
 
     [Signal]
@@ -51,29 +56,34 @@ public class Gameplay : CanvasLayer
             b.Empty = false;
         }
 
-        var winArray = checkWin();
+        _winArray = checkWin();
         // If its not -1 then there is a win or draw
-        if( winArray[0].x != -1 ) {
+        if( _winArray[0].x != -1 ) {
             // Disable all buttons
             foreach (GridBtn btn in _buttons) {
                 btn.Disabled = true;
             }
-
-            var winPopup = GetNode<Popup>("WinMenu");
-            // Someone won
-            if (winArray[0].x != -2) {
-                _winLine.Points = winArray;
-                _winLine.Visible = true;
-                if (!_crossTurn)
-                    winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Crosses win";
-                else
-                    winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Naughts win";
-            }
-            else {  // It was a draw
-                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Draw";
-            }
-            winPopup.Popup_();
+            _winLine.Points = _winArray;
+            _winLine.Visible = true;
+            // Start timer to delay win popup
+            _winTimer.Start();
         }
+    }
+
+    private void _showWinPopup() {
+        _winTimer.Stop();
+        var winPopup = GetNode<Popup>("WinMenu");
+        // Someone won
+        if (_winArray[0].x != -2) {
+            if (!_crossTurn)
+                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Crosses win";
+            else
+                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Naughts win";
+        }
+        else {  // It was a draw
+            winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Draw";
+        }
+        winPopup.Popup_();
     }
 
     // Returns an array of vector 2 positions to draw the line of winning to
@@ -144,6 +154,7 @@ public class Gameplay : CanvasLayer
     }
 
     private void _onRestartBtn() {
+        // Reset game state
         _winLine.Visible = false;
         foreach (GridBtn b in _buttons) {
             b.Empty = true;
