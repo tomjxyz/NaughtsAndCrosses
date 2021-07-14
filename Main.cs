@@ -19,8 +19,13 @@ public class Main : Node
 
         gameplayInstance.CrossCpu = humanp1;
         gameplayInstance.NaughtCpu = humanp2;
+        gameplayInstance.Connect("exit_to_menu", this, "_onBackSignal");
 
         AddChild(gameplayInstance);
+    }
+
+    private void _onBackSignal() {
+        GetNode<CanvasLayer>("Gameplay").QueueFree();
     }
 
 }

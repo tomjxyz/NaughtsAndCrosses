@@ -146,4 +146,9 @@ public class Gameplay : CanvasLayer
         }
         GetNode<Popup>("WinMenu").Visible = false;
     }
+
+    // Emits exit signal to be picked up by main node
+    private void _onBackBtn() {
+        EmitSignal("exit_to_menu");
+    }
 }
