@@ -8,6 +8,11 @@ public class GridBtn : Control
     public bool Empty;
     private bool _cross;
 
+    public bool Disabled {
+        set { this.GetChild<TextureButton>(0).Disabled = value; }
+        get { return this.GetChild<TextureButton>(0).Disabled; } 
+    }
+
     [Signal]
     public delegate void tapped(GridBtn g);
     public override void _Ready()

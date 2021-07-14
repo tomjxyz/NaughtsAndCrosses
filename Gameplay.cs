@@ -50,25 +50,30 @@ public class Gameplay : CanvasLayer
             _crossTurn = !_crossTurn;
             b.Empty = false;
         }
-        var winArray = checkWin();
-        // If its not -1 then there was a win
-        if( winArray[0].x != -1 ) {
-            _winLine.Points = winArray;
-            _winLine.Visible = true;
-            var winPopup = GetNode<Popup>("WinMenu");
-            if (!_crossTurn)
-                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Crosses win";
-            else
-                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Naughts win";
-            winPopup.Popup_();
-        }
-        // If its -2 then there was a draw
-        if ( winArray[0].x == -2 ) {
-            var winPopup = GetNode<Popup>("WinMenu");
-            winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Draw";
-            winPopup.Popup_();
-        }
 
+        var winArray = checkWin();
+        // If its not -1 then there is a win or draw
+        if( winArray[0].x != -1 ) {
+            // Disable all buttons
+            foreach (GridBtn btn in _buttons) {
+                btn.Disabled = true;
+            }
+
+            var winPopup = GetNode<Popup>("WinMenu");
+            // Someone won
+            if (winArray[0].x != -2) {
+                _winLine.Points = winArray;
+                _winLine.Visible = true;
+                if (!_crossTurn)
+                    winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Crosses win";
+                else
+                    winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Naughts win";
+            }
+            else {  // It was a draw
+                winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Draw";
+            }
+            winPopup.Popup_();
+        }
     }
 
     // Returns an array of vector 2 positions to draw the line of winning to
@@ -143,6 +148,7 @@ public class Gameplay : CanvasLayer
         foreach (GridBtn b in _buttons) {
             b.Empty = true;
             b.setTexture(null, false);
+            b.Disabled = false;
         }
         GetNode<Popup>("WinMenu").Visible = false;
     }
