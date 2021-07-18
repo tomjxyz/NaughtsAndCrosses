@@ -23,6 +23,7 @@ public class Gameplay : CanvasLayer
     private Line2D _winLine;
     private Timer _winTimer;
     private Vector2[] _winArray;
+    private Label _turnLbl;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -35,12 +36,15 @@ public class Gameplay : CanvasLayer
         _naughttexture = (Texture)GD.Load("res://Art/naught.png");
         _buttons = new GridBtn[3,3];
 
-        foreach (GridBtn b in GetNode<GridContainer>("GridContainer").GetChildren()) {
+        foreach (GridBtn b in GetNode<GridContainer>("GridTexture/GridContainer").GetChildren()) {
             b.Connect("tapped", this, "onTapped");
 
             // Assign each button to a 2d array of the relevant positions
             _buttons[(int)b.GridPos.x, (int)b.GridPos.y] = b;
         }
+        _turnLbl = GetNode<Label>("TurnLbl");
+        _updateTurnLbl();
+
         _winLine = GetNode<Line2D>("WinLine");
         _winTimer = GetNode<Timer>("WinTimer");
         _winTimer.Connect("timeout", this, "_showWinPopup");
@@ -57,6 +61,7 @@ public class Gameplay : CanvasLayer
                 b.setTexture(_naughttexture, false);
             _crossTurn = !_crossTurn;
             b.Empty = false;
+            _updateTurnLbl();
         }
 
         _winArray = checkWin();
@@ -87,6 +92,7 @@ public class Gameplay : CanvasLayer
             winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Draw";
         }
         winPopup.Popup_();
+        _turnLbl.Visible = false;
     }
 
     // Returns an array of vector 2 positions to draw the line of winning to
@@ -187,10 +193,23 @@ public class Gameplay : CanvasLayer
             b.Disabled = false;
         }
         GetNode<Popup>("WinMenu").Visible = false;
+        _turnLbl.Visible = true;
     }
 
     // Emits exit signal to be picked up by main node
     private void _onBackBtn() {
         EmitSignal("exit_to_menu");
+    }
+
+    private void _updateTurnLbl() {
+        if (_crossTurn) {
+            _turnLbl.Text = "Cross Turn";
+            _turnLbl.Set("custom_colors/font_color", new Color("#d62411"));
+        } 
+        else {
+            _turnLbl.Text = "Naught Turn";
+            _turnLbl.Set("custom_colors/font_color", new Color("#68aed4"));
+        }
+
     }
 }
