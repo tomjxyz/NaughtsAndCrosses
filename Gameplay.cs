@@ -4,10 +4,10 @@ using System.Linq;
 
 public class Gameplay : CanvasLayer
 {
-    // These two booleans control wether naughts or crosses are controlled by AI
+    // These two booleans control wether naughts or crosses are humans
     // Passed in when the scene is instantiated
-    public bool CrossCpu { get; set; }
-    public bool NaughtCpu { get; set; }
+    public bool HumanCross { get; set; }
+    public bool HumanNaught { get; set; }
 
     [Export]
     private int _lineExtension;
@@ -16,6 +16,7 @@ public class Gameplay : CanvasLayer
     // If not naughts must be
     private bool _crossTurn;
     private GridBtn[,] _buttons;
+    private Drone _dronePlayer;
 
     private Texture _crosstexture;
     private Texture _naughttexture;
@@ -24,6 +25,7 @@ public class Gameplay : CanvasLayer
     private Timer _winTimer;
     private Vector2[] _winArray;
     private Label _turnLbl;
+    private Timer _droneTimer;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -35,6 +37,7 @@ public class Gameplay : CanvasLayer
         _crosstexture = (Texture)GD.Load("res://Art/cross.png");
         _naughttexture = (Texture)GD.Load("res://Art/naught.png");
         _buttons = new GridBtn[3,3];
+        _dronePlayer = new Drone();
 
         foreach (GridBtn b in GetNode<GridContainer>("GridTexture/GridContainer").GetChildren()) {
             b.Connect("tapped", this, "onTapped");
@@ -48,25 +51,53 @@ public class Gameplay : CanvasLayer
         _winLine = GetNode<Line2D>("WinLine");
         _winTimer = GetNode<Timer>("WinTimer");
         _winTimer.Connect("timeout", this, "_showWinPopup");
+
+        _droneTimer = GetNode<Timer>("DroneTimer");
+        _droneTimer.Connect("timeout", this, "_onDroneTimeout");
+        if (HumanCross || HumanNaught)
+            _droneTimer.Start();
     }
 
     [Signal]
     public delegate void exit_to_menu();
 
     public void onTapped(GridBtn b) {
-        if (b.Empty) {
+        // If the user has tapped a valid space
+        if (b.Empty && _droneTimer.IsStopped()) {
             if (_crossTurn)
                 b.setTexture(_crosstexture, true);
-            else
+            else 
                 b.setTexture(_naughttexture, false);
-            _crossTurn = !_crossTurn;
-            b.Empty = false;
-            _updateTurnLbl();
+            _afterTurn(b);
         }
+    }
+
+    private void _onDroneTimeout() {
+        _droneTimer.Stop();
+        GridBtn b = _dronePlayer.findMove(_buttons, _crossTurn);
+        if (_crossTurn && !HumanCross)
+            b.setTexture(_crosstexture, true);
+        if (!_crossTurn && !HumanNaught)
+            b.setTexture(_naughttexture, false);
+        _afterTurn(b);
+    }
+
+    private void _afterTurn(GridBtn b) {
+        _crossTurn = !_crossTurn;
+        b.Empty = false;
+        _updateTurnLbl();
+
+        if (_crossTurn && !HumanCross)
+            _droneTimer.Start();
+        if (!_crossTurn && !HumanNaught)
+            _droneTimer.Start();
 
         _winArray = checkWin();
         // If its not -1 then there is a win or draw
         if( _winArray[0].x != -1 ) {
+            // Stop the ai
+            _droneTimer.Stop();
+
             // Disable all buttons
             foreach (GridBtn btn in _buttons) {
                 btn.Disabled = true;
@@ -76,6 +107,8 @@ public class Gameplay : CanvasLayer
             // Start timer to delay win popup
             _winTimer.Start();
         }
+
+        
     }
 
     private void _showWinPopup() {
@@ -194,6 +227,10 @@ public class Gameplay : CanvasLayer
         }
         GetNode<Popup>("WinMenu").Visible = false;
         _turnLbl.Visible = true;
+        if (_crossTurn && !HumanCross)
+            _droneTimer.Start();
+        if (!_crossTurn && !HumanNaught)
+            _droneTimer.Start();
     }
 
     // Emits exit signal to be picked up by main node

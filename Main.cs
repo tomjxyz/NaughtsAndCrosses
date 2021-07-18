@@ -17,8 +17,8 @@ public class Main : Node
     private void _startGame(bool humanp1, bool humanp2) {
         Gameplay gameplayInstance = _gameplayScene.Instance<Gameplay>();
 
-        gameplayInstance.CrossCpu = humanp1;
-        gameplayInstance.NaughtCpu = humanp2;
+        gameplayInstance.HumanCross = humanp1;
+        gameplayInstance.HumanNaught = humanp2;
         gameplayInstance.Connect("exit_to_menu", this, "_onBackSignal");
 
         AddChild(gameplayInstance);
