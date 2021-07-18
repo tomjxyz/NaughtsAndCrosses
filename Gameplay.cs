@@ -54,7 +54,8 @@ public class Gameplay : CanvasLayer
 
         _droneTimer = GetNode<Timer>("DroneTimer");
         _droneTimer.Connect("timeout", this, "_onDroneTimeout");
-        if (HumanCross || HumanNaught)
+        _droneTimer.Stop();
+        if (!HumanNaught)
             _droneTimer.Start();
     }
 
@@ -73,7 +74,6 @@ public class Gameplay : CanvasLayer
     }
 
     private void _onDroneTimeout() {
-        _droneTimer.Stop();
         GridBtn b = _dronePlayer.findMove(_buttons, _crossTurn);
         if (_crossTurn && !HumanCross)
             b.setTexture(_crosstexture, true);
@@ -102,6 +102,7 @@ public class Gameplay : CanvasLayer
             foreach (GridBtn btn in _buttons) {
                 btn.Disabled = true;
             }
+            _turnLbl.Visible = false;
             _winLine.Points = _winArray;
             _winLine.Visible = true;
             // Start timer to delay win popup
@@ -112,7 +113,6 @@ public class Gameplay : CanvasLayer
     }
 
     private void _showWinPopup() {
-        _winTimer.Stop();
         var winPopup = GetNode<Popup>("WinMenu");
         // Someone won
         if (_winArray[0].x != -2) {
@@ -125,7 +125,6 @@ public class Gameplay : CanvasLayer
             winPopup.GetNode<Label>("Backing/ResultLbl").Text = "Draw";
         }
         winPopup.Popup_();
-        _turnLbl.Visible = false;
     }
 
     // Returns an array of vector 2 positions to draw the line of winning to
@@ -174,7 +173,6 @@ public class Gameplay : CanvasLayer
                 var btnSize = _buttons[0,0].RectSize;
                 positions[i].x += btnSize.x / 2;
                 positions[i].y += btnSize.y / 2;
-                GD.Print("WinLine point " + i + " X: " + positions[i].x + " Y: " + positions[i].y);
             }
 
             // If it's a horizontal line

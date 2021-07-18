@@ -117,8 +117,10 @@ visible = false
 
 [node name="WinTimer" type="Timer" parent="."]
 wait_time = 0.35
+one_shot = true
 
 [node name="DroneTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="TurnLbl" type="Label" parent="."]
 anchor_left = 0.5
