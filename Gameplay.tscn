@@ -8,6 +8,7 @@
 [node name="Gameplay" type="CanvasLayer"]
 layer = 2
 script = ExtResource( 1 )
+_lineExtension = 175
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0

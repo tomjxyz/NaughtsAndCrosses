@@ -9,6 +9,9 @@ public class Gameplay : CanvasLayer
     public bool CrossCpu { get; set; }
     public bool NaughtCpu { get; set; }
 
+    [Export]
+    private int _lineExtension;
+
     // Boolean that determines whether crosses are currently playing
     // If not naughts must be
     private bool _crossTurn;
@@ -126,11 +129,33 @@ public class Gameplay : CanvasLayer
         }
 
         // Change line position to be in the centre of the buttons
+        // and add some length to either end
         if (win) {
             for (int i = 0; i < positions.Length; i++){
                 var btnSize = _buttons[0,0].RectSize;
                 positions[i].x += btnSize.x / 2;
                 positions[i].y += btnSize.y / 2;
+                GD.Print("WinLine point " + i + " X: " + positions[i].x + " Y: " + positions[i].y);
+            }
+
+            // If it's a horizontal line
+            if (positions[0].x == positions[1].x && positions [1].x == positions[2].x) {
+                positions[0].y -= _lineExtension;
+                positions[2].y += _lineExtension;
+            }
+            // If it's a vertical line
+            if (positions[0].y == positions[1].y && positions[1].y == positions[2].y) {
+                positions[0].x -= _lineExtension;
+                positions[2].x += _lineExtension;
+            }
+
+            // If its a diagonal
+            if (positions[0].x != positions[1].x && positions[0].y != positions[1].y) {
+                positions[0].x -= _lineExtension;
+                positions[0].y -= _lineExtension;
+                positions[2].x += _lineExtension;
+                positions[2].y += _lineExtension;
+
             }
         }
         else {
