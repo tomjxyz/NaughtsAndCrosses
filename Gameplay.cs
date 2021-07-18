@@ -14,7 +14,7 @@ public class Gameplay : CanvasLayer
 
     // Boolean that determines whether crosses are currently playing
     // If not naughts must be
-    private bool _crossTurn;
+    private bool _crossTurn = true;
     private GridBtn[,] _buttons;
     private Drone _dronePlayer;
 
@@ -55,7 +55,7 @@ public class Gameplay : CanvasLayer
         _droneTimer = GetNode<Timer>("DroneTimer");
         _droneTimer.Connect("timeout", this, "_onDroneTimeout");
         _droneTimer.Stop();
-        if (!HumanNaught)
+        if (!HumanCross)
             _droneTimer.Start();
     }
 
