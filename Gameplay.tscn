@@ -11,6 +11,7 @@ size = 80
 font_data = ExtResource( 4 )
 
 [node name="Gameplay" type="CanvasLayer"]
+pause_mode = 1
 layer = 2
 script = ExtResource( 1 )
 _lineExtension = 175

@@ -27,7 +27,6 @@ public class Gameplay : CanvasLayer
     private Label _turnLbl;
     private Timer _droneTimer;
 
-    private bool _godMode = false;
 
     [Signal]
     public delegate void exit_to_menu();
@@ -63,22 +62,8 @@ public class Gameplay : CanvasLayer
             _droneTimer.Start();
     }
 
-    public override void _Input(InputEvent inputEvent) {
-        // Toggle god mode on Ctrl+G
-        if (inputEvent is InputEventKey kEvent && kEvent.Pressed) {
-            if ((KeyList)kEvent.Scancode == KeyList.G && kEvent.Control) {
-                _godMode = !_godMode;
-                if (_godMode) 
-                    GD.Print("GodMode on");
-                else
-                    GD.Print("GodMode off");
-            }
-        }
-        
-    }
-
     public void onTapped(GridBtn b) {
-        if (_godMode && b.Empty) {
+        if (b.Empty) {
             if (_crossTurn)
                 b.setTexture(_crosstexture, true);
             else 
@@ -87,7 +72,7 @@ public class Gameplay : CanvasLayer
         }
         
         // If the user has tapped a valid space
-        if (!_godMode && b.Empty && _droneTimer.IsStopped()) {
+        if (b.Empty && _droneTimer.IsStopped()) {
             if (_crossTurn)
                 b.setTexture(_crosstexture, true);
             else 
@@ -110,9 +95,9 @@ public class Gameplay : CanvasLayer
         b.Empty = false;
         _updateTurnLbl();
 
-        if (_crossTurn && !HumanCross && !_godMode)
+        if (_crossTurn && !HumanCross)
             _droneTimer.Start();
-        if (!_crossTurn && !HumanNaught && !_godMode)
+        if (!_crossTurn && !HumanNaught)
             _droneTimer.Start();
 
         _winArray = checkWin();
