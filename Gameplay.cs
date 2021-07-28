@@ -101,6 +101,9 @@ public class Gameplay : CanvasLayer
             _droneTimer.Start();
 
         _winArray = checkWin();
+        for (int i = 0; i < _winArray.Length; i++) {
+            GD.Print("[" + i + "] X: " + _winArray[i].x + " Y: " + _winArray[i].y);
+        }
         // If its not -1 then there is a win or draw
         if( _winArray[0].x != -1 ) {
             // Stop the ai
@@ -194,13 +197,21 @@ public class Gameplay : CanvasLayer
                 positions[2].x += _lineExtension;
             }
 
-            // If its a diagonal
             if (positions[0].x != positions[1].x && positions[0].y != positions[1].y) {
-                positions[0].x -= _lineExtension;
-                positions[0].y -= _lineExtension;
-                positions[2].x += _lineExtension;
-                positions[2].y += _lineExtension;
-
+                // If its a right diagonal
+                if (positions[0].y < positions[2].y) {
+                    positions[0].x -= _lineExtension;
+                    positions[0].y -= _lineExtension;
+                    positions[2].x += _lineExtension;
+                    positions[2].y += _lineExtension;
+                }
+                // If its a left diagonal
+                if (positions[0].y > positions[2].y) {
+                    positions[0].x -= _lineExtension;
+                    positions[0].y += _lineExtension;
+                    positions[2].x += _lineExtension;
+                    positions[2].y -= _lineExtension;
+                }
             }
         }
         else {
