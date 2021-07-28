@@ -14,15 +14,21 @@ class Drone {
         _buttons = buttons;
         _crossTurn = crossTurn;
 
-        var moveResult = moveToWin(crossTurn);
-        if (moveResult != null) {
-            GD.Print("MoveToWin");
-            return moveResult;
+        
+        var moveMeResult = moveToWin(crossTurn);
+        if (moveMeResult != null) {
+            GD.Print("Move to Win");
+            return moveMeResult;
         }
-        else {
-            GD.Print("Random Move");
-            return randomMove();
+        var moveThemResult = moveToWin(!crossTurn);
+        if (moveThemResult != null) {
+            GD.Print("Move to stop them winning");
+            return moveThemResult;
         }
+
+        // Otherwise do a random move
+        GD.Print("Random Move");
+        return randomMove();
     }
 
     // This method returns a grid button if there is a move for crosses if parameter = true 
@@ -46,7 +52,7 @@ class Drone {
                         amountFilled++;
                 }
             }
-            if (amountFilled == 2)
+            if (amountFilled == 2 && empty != null)
                 return empty;
         }
         
@@ -62,7 +68,7 @@ class Drone {
                         amountFilled++;
                 }
             }
-            if (amountFilled == 2)
+            if (amountFilled == 2 && empty != null)
                 return empty;
         }
 
@@ -80,7 +86,7 @@ class Drone {
                     amountFilled++;
             }
         }
-        if (amountFilled == 2)
+        if (amountFilled == 2 && empty != null)
             return empty;
 
         empty = null;
@@ -93,7 +99,7 @@ class Drone {
                     amountFilled++;
             }
         }
-        if (amountFilled == 2)
+        if (amountFilled == 2 && empty != null)
             return empty;
 
         return null;
